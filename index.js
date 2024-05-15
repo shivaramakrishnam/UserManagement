@@ -21,20 +21,33 @@ function getUsers(){
                 tr.innerHTML += `<td>${user.age}</td>`
                 tr.innerHTML += `<td>${user.email}</td>`
                 tr.innerHTML += `<td><button onclick="deleteUser(${user.id})">Delete</button>
-                <button onclick="editUser(${tr},${})">Edit</button></td>`
+                <button onclick="showEdit(${tr},${user})">Edit</button></td>`
                 tableBody.appendChild(tr)
             })
         })
 }
 
-function deleteUser(id){
+async function deleteUser(id){
     console.log(id)
-    fetch(`http://localhost:3000/users/${id}`,{method:"DELETE"})
+    await fetch(`http://localhost:3000/users/${id}`,{method:"DELETE"})
         .then(resp => resp.json())
         .then(data => console.log(data))
+    show = true;
+    getUsers()
 }
 
-function editUser(idn){
+function showEdit(tr,user){
+    console.log(tr)
+    tr.innerHTML = ""
+    tr.innerHTML += `<td><input value={${user.username}} /></td>`
+    tr.innerHTML += `<td><input value={${user.id}} /></td>`
+    tr.innerHTML += `<td><input value={${user.age}} /></td>`
+    tr.innerHTML += `<td><input value={${user.email}} /></td>`
+    tr.innerHTML += `<td><button onclick="deleteUser(${user.id})">Delete</button>
+    <button onclick="showEdit(${tr},${user})">Edit</button></td>`
+}
+
+function editUser(tr,user){
     
     fetch("http://localhost:3000/users/1",{method:"PATCH",body : JSON.stringify({id:idn,age:35})})
         .then(resp => resp.json())
@@ -81,4 +94,7 @@ async function addNewUser(id,name,email,age){
     })
     .then(resp => resp.json())
     .then((data) => console.log(data))
+
+    show = true;
+    getUsers()
 }
