@@ -1,0 +1,46 @@
+{
+  "users": [
+    {
+      "id": "1",
+      "username": "john_doe",
+      "email": "john@example.com",
+      "age": 35,
+      "address": {
+        "street": "123 Main St",
+        "city": "New York",
+        "zip_code": "10001",
+        "country": "USA"
+      }
+    },
+    {
+      "id": "2",
+      "username": "jane_smith",
+      "email": "jane@example.com",
+      "age": 25,
+      "address": {
+        "street": "456 Elm St",
+        "city": "Los Angeles",
+        "zip_code": "90001",
+        "country": "USA"
+      }
+    },
+    {
+      "id": "521",
+      "username": "shiva",
+      "email": "sohiova@gmail.com",
+      "age": "212"
+    },
+    {
+      "id": "32",
+      "username": "priya",
+      "email": "priyanshu@gmail.com",
+      "age": "34"
+    },
+    {
+      "id": "23",
+      "username": "adnan",
+      "email": "adnan@badnam.com",
+      "age": "34"
+    }
+  ]
+}
