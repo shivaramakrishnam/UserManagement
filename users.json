@@ -4,13 +4,14 @@
       "id": "1",
       "username": "john_doe",
       "email": "john@example.com",
-      "age": 35,
+      "age": "36",
       "address": {
         "street": "123 Main St",
         "city": "New York",
         "zip_code": "10001",
         "country": "USA"
-      }
+      },
+      "name": "john_doe"
     },
     {
       "id": "2",
@@ -34,13 +35,8 @@
       "id": "32",
       "username": "priya",
       "email": "priyanshu@gmail.com",
-      "age": "34"
-    },
-    {
-      "id": "23",
-      "username": "adnan",
-      "email": "adnan@badnam.com",
-      "age": "34"
+      "age": "33",
+      "name": "priya"
     }
   ]
 }
