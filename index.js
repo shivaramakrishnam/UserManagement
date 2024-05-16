@@ -45,7 +45,7 @@ async function showEdit(userId) {
 
 async function hideEdit(userId) {
     let tr = document.querySelector(`tr[data-user-id="${userId}"]`);
-    let user = await getUserById(userId); // Assuming you have a function to get user by ID
+    let user = await getUserById(userId);
     if (tr && user) {
         tr.innerHTML = ""
         tr.setAttribute('data-user-id',user.id)
