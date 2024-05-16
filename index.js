@@ -67,7 +67,7 @@ async function editUser(idn){
     let email = document.getElementById(`useremail${user.id}`).value
     let age = document.getElementById(`userage${user.id}`).value
 
-    if(!checkUser()) return
+    if(!checkUser(id,name,email,age)) return
 
     fetch(`http://localhost:3000/users/${user.id}`,{method:"PATCH",body : JSON.stringify({age:age,name:name,email:email,id:id})})
         .then(resp => resp.json())
@@ -101,7 +101,7 @@ async function addNewUser(id,name,email,age){
         "email": email,
         "age": age,
     }
-    if(!checkUser()) return
+    if(!checkUser(id,name,email,age)) return
 
     fetch("http://localhost:3000/users",{
         method : "POST",
