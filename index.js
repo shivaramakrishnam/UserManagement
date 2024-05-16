@@ -1,33 +1,53 @@
-let show = true;
-getUsers();
-
+let show1 = false
+let open = true
+getUsers()
 function getUsers(){
-
-    toggleShow()
+    if(show1 == false && open != true) {
+        return
+    }
+    open = false 
     fetch("http://localhost:3000/users")
         .then(resp => resp.json())
         .then(data => {
-            let tableBody = document.getElementById("table-body")
-            tableBody.innerHTML = `<tbody id="table-body"></tbody>`
-            if(show == true)
-                show = false
-            else{
-                show = true;
-                return;
-            }
-            data.forEach((user)=>{
-                let tr = document.createElement("tr")
-                tr.setAttribute('data-user-id',user.id)
-                tr.innerHTML += `<td>${user.username}</td>`
-                tr.innerHTML += `<td>${user.id}</td>`
-                tr.innerHTML += `<td>${user.age}</td>`
-                tr.innerHTML += `<td>${user.email}</td>`
-                tr.innerHTML += `<td><button onclick="deleteUser(${user.id})">Delete</button>
-                <button onclick="showEdit(${user.id})">Edit</button></td>`
-                tableBody.appendChild(tr)
-            })
+            print(data)
         })
 }
+
+function print(data){
+    let tableBody = document.getElementById("table-body")
+    tableBody.innerHTML = `<tbody id="table-body"></tbody>`
+
+    let search =  document.getElementById("searchBox").value
+    let mode = document.getElementById("mode").value
+    data = filterDataOnSearch(data,search,mode)
+
+    data.forEach((user)=>{
+        let tr = document.createElement("tr")
+        tr.setAttribute('data-user-id',user.id)
+        tr.innerHTML += `<td>${user.username}</td>`
+        tr.innerHTML += `<td>${user.id}</td>`
+        tr.innerHTML += `<td>${user.age}</td>`
+        tr.innerHTML += `<td>${user.email}</td>`
+        tr.innerHTML += `<td><button onclick="deleteUser(${user.id})">Delete</button>
+        <button onclick="showEdit(${user.id})">Edit</button></td>`
+        tableBody.appendChild(tr)
+    })
+}
+
+function filterDataOnSearch(data,search,mode){
+    if(search == "") return data;
+    if(mode == "id")
+        data = data.filter(user => user.id.includes(search))
+    else if(mode == "name")
+        data = data.filter(user => user.username.includes(search))
+    else if(mode == "age")
+        data = data.filter(user => user.age.toString().includes(search))
+    else if(mode == "email")
+        data = data.filter(user => user.email.includes(search))
+    else if(mode == "all") data = data.filter(user => (user.id.includes(search) || user.username.includes(search) || user.age.toString().includes(search) || user.email.includes(search)))
+    return data
+}
+
     
 async function showEdit(userId) {
     let tr = document.querySelector(`tr[data-user-id="${userId}"]`);
@@ -80,7 +100,6 @@ async function deleteUser(id){
     await fetch(`http://localhost:3000/users/${id}`,{method:"DELETE"})
         .then(resp => resp.json())
         .then(data => console.log(data))
-    show = true;
     getUsers()
 }
 
@@ -110,7 +129,6 @@ async function addNewUser(id,name,email,age){
     .then(resp => resp.json())
     .then((data) => console.log(data))
 
-    show = true;
     getUsers()
 }
 
@@ -148,8 +166,16 @@ async function getUserById(idn){
 
 function toggleShow(){
     let show = document.getElementById("showStatus")
-    if(show.textContent == "Show Users"){
-        show.textContent = "Hide Users"
+    if(show.innerText == "Show Users"){
+        show.innerText = "Hide Users"
+        show1 = false
+        getUsers()
     }
-    else show.textContent = "Show Users"
+    else{
+        show1 = true
+        show.innerText = "Show Users"
+        let tbody = document.getElementById("table-body")
+        tbody.innerHTML= ""
+        tbody.innerHTML = `<tbody id="table-body"></tbody>`
+    }
 }

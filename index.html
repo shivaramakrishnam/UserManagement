@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
-</head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
+   </head>
 <body>
 
   <h1>User Management Model</h1>
@@ -16,7 +18,16 @@
     <button id="submit" onclick="addUser()">ADD USER</button>
 
     <br><br>
-    <button onclick="getUsers()" id="showStatus">Show Users</button>
+    <button onclick="getUsers();toggleShow()" id="showStatus">Hide Users</button>
+    Search : <input id="searchBox" oninput="getUsers()" placeholder="search"/>
+    Search by : <select id="mode" onchange="getUsers()">
+      <option value="name">Name</option>
+      <option value="id">ID</option>
+      <option value="email">Email</option>
+      <option value="age">Age</option>
+      <option value="all">All</option>
+    </select>
+  
     <div id="users-display">
       <table class="table" id="table1">
         <thead class="table-dark">
@@ -34,6 +45,4 @@
 
 </body>
 <script src="index.js"></script>
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </html>
