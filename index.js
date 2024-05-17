@@ -1,15 +1,18 @@
 let show1 = false
 let open = true
+let url = "http://localhost:6500/users"
+
 getUsers()
 function getUsers(){
     if(show1 == false && open != true) {
         return
     }
     open = false 
-    fetch("http://localhost:3000/users")
+    fetch(`${url}`)
         .then(resp => resp.json())
         .then(data => {
             print(data)
+            console.log(data)
         })
 }
 
@@ -81,26 +84,33 @@ async function hideEdit(userId) {
 
 async function editUser(idn){
     let user = await getUserById(idn)
-    console.log(user)
+    
     let id = document.getElementById(`userid${user.id}`).value
     let name = document.getElementById(`username${user.id}`).value
     let email = document.getElementById(`useremail${user.id}`).value
     let age = document.getElementById(`userage${user.id}`).value
 
-    if(!checkUser(id,name,email,age)) return
-
-    fetch(`http://localhost:3000/users/${user.id}`,{method:"PATCH",body : JSON.stringify({age:age,name:name,email:email,id:id})})
+    if(id == null || name == null || email == null || age == null){
+        alert("Please enter all the fields!")
+        return false
+    }
+    
+    await fetch(`${url}/${user.id}`,{method:"PATCH",body : JSON.stringify({name,age,email})})
         .then(resp => resp.json())
         .then(data => console.log(data))
         .catch(err => console.log(err))
+
+    console.log(id,age,name,email)
+
+    refresh()
 }
 
 async function deleteUser(id){
     console.log(id)
-    await fetch(`http://localhost:3000/users/${id}`,{method:"DELETE"})
+    await fetch(`${url}/${id}`,{method:"DELETE"})
         .then(resp => resp.json())
         .then(data => console.log(data))
-    getUsers()
+    refresh()
 }
 
 function addUser()
@@ -122,13 +132,23 @@ async function addNewUser(id,name,email,age){
     }
     if(!checkUser(id,name,email,age)) return
 
-    fetch("http://localhost:3000/users",{
+    await fetch(`${url}`,{
         method : "POST",
+        headers: {
+            'Content-Type':'application/json',
+            'Accept':'application/json'
+        },
         body : JSON.stringify(newUser)
     })
     .then(resp => resp.json())
     .then((data) => console.log(data))
+    .catch(err => alert(err.message))
 
+    refresh()
+}
+
+function refresh(){
+    show1 = true
     getUsers()
 }
 
@@ -139,11 +159,11 @@ async function checkUser(id,name,email,age){
     }
 
     let flag = 0;
-    await fetch("http://localhost:3000/users")
+    await fetch(`${url}`)
         .then(resp => resp.json())
         .then(data => {
             data.forEach(user => {
-                if(user.id === id && user.id != idn) {
+                if(user.id === id && user.id != id) {
                     alert("User Id already exists")
                     flag =1
                 }
@@ -156,7 +176,7 @@ async function checkUser(id,name,email,age){
 
 async function getUserById(idn){
     let user = null
-    await fetch("http://localhost:3000/users")
+    await fetch(`${url}`)
         .then(resp => resp.json())
         .then(data => {
             user =  data.find(user => user.id == idn)
